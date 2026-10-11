@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: branding-agent
+    runtime: node
+    plan: free
+    rootDir: local-scaler-agent
+    # --include=dev: Vite/Tailwind are devDependencies and are needed for the client build.
+    buildCommand: npm install --prefix client --include=dev && npm run build --prefix client && npm install --prefix server
+    startCommand: node server/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      # Optional AI keys. Without any key the app still works in offline-template mode.
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemma-4-26b-a4b-it
+      - key: OPENROUTER_API_KEY
+        sync: false

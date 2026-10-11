@@ -134,6 +134,14 @@ app.post("/api/generate-image", async (req, res) => {
   }
 });
 
+// Hosted mode: serve the built React dashboard (client/dist) from the same origin as the API.
+// Skipped in local dev, where Vite serves the client on :3000 and proxies /api here.
+const CLIENT_DIST = path.join(__dirname, "..", "client", "dist");
+if (require("fs").existsSync(path.join(CLIENT_DIST, "index.html"))) {
+  app.use(express.static(CLIENT_DIST));
+  app.get(/^\/(?!api\/).*/, (_req, res) => res.sendFile(path.join(CLIENT_DIST, "index.html")));
+}
+
 app.listen(PORT, () => {
   console.log(`Scaler agent API listening on http://localhost:${PORT}`);
 });

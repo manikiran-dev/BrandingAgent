@@ -61,7 +61,7 @@ export default function App() {
             </h1>
             <p className="text-xs text-slate-400">Generate ready-to-publish technical posts and AI image prompts</p>
           </div>
-          <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">localhost:3000</span>
+          <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">{window.location.host}</span>
         </div>
       </header>
 
