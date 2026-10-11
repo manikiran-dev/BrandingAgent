@@ -19,7 +19,7 @@ const selectClass =
 const smallBtn =
   "rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-medium text-slate-200 hover:bg-slate-700";
 
-export default function ImageGenerator({ data, inputs }) {
+export default function ImageGenerator({ data, inputs, onImage }) {
   const pkg = data.content_package;
   const visual = pkg.visual_asset_concept;
   const [mode, setMode] = useState("auto");
@@ -34,6 +34,11 @@ export default function ImageGenerator({ data, inputs }) {
     setImage(null);
     setError("");
   }, [visual.ai_image_prompt, pkg.post_copy]);
+
+  // Lets the LinkedIn publisher attach whatever visual is currently shown.
+  useEffect(() => {
+    if (onImage) onImage(image);
+  }, [image]);
 
   const generate = async () => {
     setLoading(true);

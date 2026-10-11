@@ -1,6 +1,8 @@
 import Card from "./Card.jsx";
 import CopyButton from "./CopyButton.jsx";
 import ImageGenerator from "./ImageGenerator.jsx";
+import LinkedInPublisher from "./LinkedInPublisher.jsx";
+import { useState } from "react";
 
 function Field({ label, children }) {
   return (
@@ -12,6 +14,8 @@ function Field({ label, children }) {
 }
 
 export default function ResultPanel({ data, loading }) {
+  const [image, setImage] = useState(null);
+
   if (loading) {
     return (
       <div className="animate-pulse rounded-xl border border-slate-800 bg-slate-900 p-10 text-center text-sm text-slate-400">
@@ -67,7 +71,9 @@ export default function ResultPanel({ data, loading }) {
         </pre>
       </Card>
 
-      <ImageGenerator data={data} inputs={inputs || {}} />
+      <ImageGenerator data={data} inputs={inputs || {}} onImage={setImage} />
+
+      <LinkedInPublisher pkg={pkg} image={image} />
 
       <Card title="Publishing Plan">
         <dl className="space-y-3">

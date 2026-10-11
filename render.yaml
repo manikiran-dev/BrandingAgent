@@ -18,3 +18,12 @@ services:
         value: gemma-4-26b-a4b-it
       - key: OPENROUTER_API_KEY
         sync: false
+      # Optional LinkedIn publishing (see docs/LINKEDIN.md). Publishing stays disabled without the passcode.
+      - key: LINKEDIN_CLIENT_ID
+        sync: false
+      - key: LINKEDIN_CLIENT_SECRET
+        sync: false
+      - key: LINKEDIN_REDIRECT_URI
+        sync: false
+      - key: LINKEDIN_PUBLISH_PASSCODE
+        sync: false

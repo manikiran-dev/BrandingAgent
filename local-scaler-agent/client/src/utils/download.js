@@ -16,6 +16,21 @@ export function svgToPngBlob(dataUrl, width = 1080, height = 1350) {
   });
 }
 
+export function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Could not read the image"));
+    reader.readAsDataURL(blob);
+  });
+}
+
+// LinkedIn only accepts raster images, so SVG visuals are rasterised to PNG first.
+export async function imageToPngDataUrl(image) {
+  if (image.format === "svg") return blobToDataUrl(await svgToPngBlob(image.image));
+  return image.image;
+}
+
 export function saveBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   saveUrl(url, filename);

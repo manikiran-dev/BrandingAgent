@@ -9,6 +9,7 @@ const { complete, llmInfo } = require("./llm");
 const { BRAND, PLATFORMS, SYSTEM_PROMPT, SETUP_INSTRUCTIONS, buildUserPrompt } = require("./brand");
 const { offlineDraft } = require("./offline");
 const { generateImage, imageProviders } = require("./imageGen");
+const { createRouter: createLinkedInRouter } = require("./linkedinRoutes");
 
 const PORT = process.env.PORT || 5000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:3000";
@@ -17,7 +18,10 @@ const DEFAULT_VISUAL = "Clean, dark-mode technical architecture diagram / infogr
 
 const app = express();
 app.use(cors({ origin: [CLIENT_ORIGIN, "http://127.0.0.1:3000"], exposedHeaders: ["X-Content-Source", "X-Image-Source"] }));
+// The LinkedIn publish route carries a base64 PNG, so it gets a larger body limit (must be registered first).
+app.use("/api/linkedin/publish", express.json({ limit: "12mb" }));
 app.use(express.json({ limit: "1mb" }));
+app.use("/api/linkedin", createLinkedInRouter({ reloadEnv }));
 
 
 function extractJson(text) {
